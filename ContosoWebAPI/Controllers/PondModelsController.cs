@@ -46,16 +46,16 @@ namespace ContosoWebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] PondModel pond)
         {
-            pond.Id = Guid.NewGuid().ToString();
+            pond.id = Guid.NewGuid().ToString();
             await _cosmosDBService.AddAsync(pond);
-            return CreatedAtAction(nameof(Get), new { id = pond.Id }, pond);
+            return CreatedAtAction(nameof(Get), new { id = pond.id }, pond);
         }
         // PUT api/PondModels/5
         // Cannot update id as it is Primary Key? Creates new pond if id updated
         [HttpPut("{id}")]
         public async Task<IActionResult> Edit([FromBody] PondModel pond)
         {
-            await _cosmosDBService.UpdateAsync(pond.Id, pond);
+            await _cosmosDBService.UpdateAsync(pond.id, pond);
             return NoContent();
         }
         // DELETE api/PondModels/id/1
