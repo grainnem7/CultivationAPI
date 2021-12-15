@@ -40,7 +40,9 @@ namespace ContosoWebAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
-            return Ok(await _cosmosDBService.GetAsync(id));
+            //return Ok(await _cosmosDBService.GetAsync(id));
+            return Ok(await _cosmosDBService.GetMultipleAsync("SELECT * FROM c where c.id = '" + id + "'"));
+
         }
         // POST api/items
         [HttpPost]
@@ -50,19 +52,25 @@ namespace ContosoWebAPI.Controllers
             await _cosmosDBService.AddAsync(pond);
             return CreatedAtAction(nameof(Get), new { id = pond.id }, pond);
         }
+
         // PUT api/PondModels/5
         // Cannot update id as it is Primary Key? Creates new pond if id updated
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Edit([FromBody] PondModel pond)
+        [HttpPut]
+        public async Task<IActionResult> Edit([FromBody] PondModel pond, string newLocation)
         {
-            await _cosmosDBService.UpdateAsync(pond.id, pond);
+            //await _cosmosDBService.UpdateAsync(pond.id, pond);
+            //var document = _cosmosDBService.GetAsync();
+            //document.Location = newLocation
+            await _cosmosDBService.UpdateAsync(pond.pondCode, pond);
+
             return NoContent();
         }
         // DELETE api/PondModels/id/1
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            await _cosmosDBService.DeleteAsync(id);
+            //await _cosmosDBService.DeleteAsync(id);
+           await _cosmosDBService.DeleteAsync("SELECT * FROM c where c.id = '" + id + "'");
             return NoContent();
         }
     }

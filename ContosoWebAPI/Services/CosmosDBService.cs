@@ -55,9 +55,9 @@ namespace ContosoWebAPI.Services
             return results;
         }
 
-        public async Task UpdateAsync(string id, PondModel pond)
+        public async Task UpdateAsync(string partitionKey, PondModel pond)
         {
-            await _container.UpsertItemAsync(pond, new PartitionKey(id));
+            await _container.UpsertItemAsync(pond, new PartitionKey(partitionKey));
         }
     }
 }
